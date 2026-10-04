@@ -21,7 +21,14 @@ let alibiTersangkaPalsu =false;
 
 // pembuka game nampilin output 
 console.log("=============================================")
-console.log('Selamat Datang Di Game ' + judulGame);
+console.log('    Selamat Datang Di Game ' + judulGame);
 console.log("=============================================")
+console.log("Kasus: Siswa bernama Reza ditemukan tewas di kelas 302");
+console.log("setelah kelas sore usai pada pukul 18.00 WIB.\n");
+
+// menerima input nama detektif dari pemain dengan tipe data string
+const namaDetektif: string =await rl.question("Masukkan ama Detektif Anda:")
+console.log('\n Salam kenal, Detektif ${namaDetektif}! Waktu anda hanya 60 menit. \n')
+
 
 
