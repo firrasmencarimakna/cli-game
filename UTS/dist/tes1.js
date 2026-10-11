@@ -1,122 +1,58 @@
-// ============================================================================
-// TUGAS UTS PEMROGRAMAN DASAR: GAME DETEKTIF "MURDER AT BLACKWOOD MANOR"
-// Bahasa: TypeScript (CLI / Terminal Base)
-// ============================================================================
-// --- 1. DEKLARASI KONSTANTA DAN VARIABEL (Penggunaan const & let) ---
-// Menggunakan const untuk nilai yang bersifat tetap (Konstanta)
-const NAMA_KORBAN = "Tuan Blackwood"; // Tipe Data String
-const TOTAL_WAKTU_AWAL = 5; // Tipe Data Number (Jumlah Jam/Kesempatan)
-// Menggunakan let untuk nilai yang akan berubah selama program berjalan
-let namaDetektif = "Rian"; // Tipe Data String
-let sisaWaktu = TOTAL_WAKTU_AWAL; // Tipe Data Number
-let poinBukti = 0; // Tipe Data Number
-let punyaKacaPembesar = true; // Tipe Data Boolean
-let kasusSelesai = false; // Tipe Data Boolean
-// Menampilkan Header Game di Terminal
-console.log("==================================================");
-console.log(`  SELAMAT DATANG DETEKTIF ${namaDetektif.toUpperCase()}`);
-console.log(`  KASUS: Pembunuhan ${NAMA_KORBAN}`);
-console.log("==================================================\n");
-// --- 2. PERCABANGAN UTAMA (SWITCH LEVEL 1) ---
-// Simulasi input pilihan lokasi dari pemain (1 = Ruang Kerja, 2 = Kamar Tidur, 3 = Ruang Interogasi)
-let pilihanLokasi = 1;
-// PENGGUNAAN SWITCH KE-1 (Minimal 3 case + default + break)
+// import library readline bawaan node.js untuk baca input terminal
+import * as readline from "node:readline/promises";
+import { stdin as input, stdout as output } from "node:process";
+//membuat antarmuka input-output terminal
+const rl = readline.createInterface({ input, output });
+//1.deklarasi variabel dengan 3 tipe data
+// variabel string dengan const(karena judul tidak berubah)
+const judulGame = "Misteri kematian Siswa";
+// variabel number dengan let karena dinamis bisa berganti
+let stamina = 100;
+let skor = 0;
+let waktu = 60;
+// variable boolean 
+let buktiRacun = false;
+let buktiSuratAncaman = false;
+let alibiTersangkaPalsu = false;
+//2. pembuka game nampilin output 
+console.log("=============================================");
+console.log('    Selamat Datang Di Game ' + judulGame);
+console.log("=============================================");
+console.log("Kasus: Siswa bernama Reza ditemukan tewas di kelas 302");
+console.log("setelah kelas sore usai pada pukul 18.00 WIB.\n");
+// menerima input nama detektif dari pemain dengan tipe data string
+const namaDetektif = await rl.question("Masukkan Nama Detektif Anda:");
+console.log(`\n Salam kenal, Detektif ${namaDetektif}! Waktu anda hanya 60 menit. \n`);
+// 3.Investigasi TKP (percabangan 4 tingkat)
+//tampilkan pilihan
+console.log("Pilih area yang ingin anda selidik pertama :");
+console.log("1. Ruang kelas 302 (meja korban)");
+console.log("2. Koridor loker siswa (loker terkunci)");
+console.log("3. Ruang piket / Pos satpam)");
+const pilihanLokasi = await rl.question("Pilihan anda (1/2/3)");
+//tingkat 1, switch utama untuk memilih lokasi
 switch (pilihanLokasi) {
-    // ------------------------------------------------------------------------
-    // CASE 1: RUANG KERJA KORBAN
-    // ------------------------------------------------------------------------
-    case 1:
-        console.log("--> Anda memasuki Ruang Kerja Korban.");
-        // NESTED LEVEL 2 (IF KE-1): Pengecekan Waktu & Status Kasus
-        // Menggunakan Operator Logika (&&) dan Perbandingan (>)
-        if (sisaWaktu > 0 && !kasusSelesai) {
-            // Simulasi input pilihan aksi di dalam Ruang Kerja
-            let pilihanAksiRuangKerja = "A";
-            // NESTED LEVEL 3 (SWITCH KE-2): Pilihan Aksi Spesifik di Ruang Kerja
-            switch (pilihanAksiRuangKerja) {
-                case "A":
-                    console.log("--- Anda memilih untuk memeriksanya Laci Meja Kaca ---");
-                    // NESTED LEVEL 4 (IF KE-2): Pengecekan Alat & Kondisi Bukti
-                    // Menggunakan Operator Logika (&&) dan Perbandingan (===)
-                    if (punyaKacaPembesar === true && poinBukti < 50) {
-                        console.log("[SUKSES] Dengan Kaca Pembesar, Anda menemukan jejak racun!");
-                        // Operator Compound Assignment (+=) dan Aritmatika (+)
-                        poinBukti += 25;
-                        // Operator Compound Assignment (-=)
-                        sisaWaktu -= 1;
-                        console.log(`Bukti Bertambah! Total Bukti: ${poinBukti}`);
-                        console.log(`Sisa Waktu Investigasi: ${sisaWaktu} jam.`);
-                    }
-                    else {
-                        console.log("[GAGAL] Anda tidak melihat sesuatu yang mencurigakan tanpa alat.");
-                        sisaWaktu -= 1; // Operator Compound Assignment (-=)
-                    }
-                    break; // Break yang benar sesuai aturan
-                case "B":
-                    console.log("--- Anda memeriksanya Brankas Rahasia ---");
-                    poinBukti += 10;
-                    sisaWaktu -= 1;
-                    break;
-                case "C":
-                    console.log("--- Anda hanya melihat-lihat ruangan ---");
-                    break;
-                default:
-                    console.log("[ERROR] Aksi di ruang kerja tidak valid!");
-                    break;
-            } // Akhir Switch Level 3
+    case "1":
+        //output pertanyaan ke pemain
+        console.log("\n--- ANDA MEMASUKI RUANG KELAS 302 ---");
+        console.log("Ruangan berantakan. Ada meja korban dan papan tulis.");
+        console.log("1. Periksa meja korban");
+        console.log("2. Periksa papan tulis");
+        //input pilihan kelas
+        const aksiKelas = await rl.question("Pilihan anda (1/2)");
+        //tingkat 2 if untuk menentukan fokus di kelas
+        if (aksiKelas === "1") {
+            console.log("\n Anda mendekati meja Reza");
+            console.log("Di atas meja ada tumbler minuman yang terbuka dan berbau aneh.");
+            //tingkat 3 if dengan lebih dari 1 kondisi (logika && dan !)
+            if (stamina >= 20 && !buktiRacun) {
+                console.log("Kondisi fisik anda prima. Apa yang ingin anda lakukan pada tumbler?");
+                console.log("1. Uji aroma dan cairan kimia di dalamnya");
+                console.log("2. Periksa sidik jari pada permukaan botol");
+                console.log("3. Amankan tumbler langsung ke kantong bukti");
+                const aksiTumbler = await rl.question("Pilihan tindakan (1/2/3): ");
+                //tingkat 4 switch di dalam if(switch ke 2 )
+                //memiliki 3 case + default + break
+            }
         }
-        else {
-            console.log("[PERINGATAN] Waktu Anda telah habis atau kasus sudah selesai!");
-        } // Akhir If Level 2
-        break; // Break untuk Case 1 Switch Level 1
-    // ------------------------------------------------------------------------
-    // CASE 2: KAMAR TIDUR KORBAN
-    // ------------------------------------------------------------------------
-    case 2:
-        console.log("--> Anda memasuki Kamar Tidur Korban.");
-        // Pengecekan kondisi menggunakan operator perbandingan & logika
-        if (sisaWaktu >= 2 || poinBukti !== 0) {
-            console.log("Anda menemukan surat ancaman di bawah bantal!");
-            poinBukti += 15;
-            sisaWaktu -= 2;
-        }
-        else {
-            console.log("Kamar terlalu gelap dan bukti kurang memadai.");
-        }
-        break;
-    // ------------------------------------------------------------------------
-    // CASE 3: RUANG INTEROGASI TERSANGKA
-    // ------------------------------------------------------------------------
-    case 3:
-        console.log("--> Anda memasuki Ruang Interogasi.");
-        // Pengecekan apakah poin bukti sudah cukup untuk menuduh pelaku
-        if (poinBukti >= 20) {
-            console.log("[BERHASIL] Bukti Anda cukup! Pelaku berhasil diinterogasi dan mengaku.");
-            kasusSelesai = true;
-        }
-        else {
-            console.log("[GAGAL] Bukti belum cukup. Tersangka tertawa dan enggan menjawab.");
-        }
-        break;
-    // ------------------------------------------------------------------------
-    // DEFAULT CASE
-    // ------------------------------------------------------------------------
-    default:
-        console.log("[ERROR] Lokasi yang Anda pilih tidak terdaftar di mansion!");
-        break;
-} // Akhir Switch Level 1
-// --- 3. EVALUASI AKHIR GAME (PERHITUNGAN & OPERATOR PERBANDINGAN) ---
-console.log("\n==================================================");
-console.log("                 RANGKUMAN HARI INI              ");
-console.log("==================================================");
-// Menggunakan Operator Logika AND (&&) dan NOT (!)
-if (kasusSelesai === true && sisaWaktu >= 0) {
-    console.log("SELAMAT! Anda menyelesaikan kasus sebelum waktu habis!");
 }
-else if (poinBukti > 0 && !kasusSelesai) {
-    console.log("Penyelidikan belum selesai. Kumpulkan lebih banyak bukti esok hari!");
-}
-else {
-    console.log("GAME OVER! Anda gagal menemukan petunjuk apapun.");
-}
-export {};
